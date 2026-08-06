@@ -10,7 +10,7 @@ const CREATE_NO_WINDOW: u32 = 0x08000000;
 
 #[derive(Default, NwgUi)]
 pub struct App {
-    #[nwg_control(title: "Complossy", flags: "WINDOW|VISIBLE", size: (500, 150))]
+    #[nwg_control(title: "Complossy", flags: "WINDOW|VISIBLE", size: (500, 150), center: true)]
     #[nwg_events(OnWindowClose: [App::exit])]
     window: nwg::Window,
 
