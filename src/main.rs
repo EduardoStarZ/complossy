@@ -70,7 +70,9 @@ impl App {
             .arg(output)
             .creation_flags(CREATE_NO_WINDOW);
 
-        _ = runner.spawn();
+        let running = runner.spawn();
+
+        let _status = running.expect("this isn't really running :(").wait();
 
         self.input_path.set_text("Compression successfull!");
     }
