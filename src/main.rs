@@ -51,8 +51,7 @@ impl App {
 
     fn convert(&self) {
 
-        println!("Converting");
-        // "ffmpeg -i input.png -c:v mjpeg -q:v 1 output.jpg"
+        self.input_path.set_text("Compressing...");
         let file = self.input_path.text();
 
         let path = std::path::PathBuf::from(&file);
@@ -74,7 +73,7 @@ impl App {
 
         let _status = running.expect("this isn't really running :(").wait();
 
-        self.input_path.set_text("Compression successfull!");
+        self.input_path.set_text("Compressed!");
     }
 
     fn build_layout(&self) {
