@@ -7,3 +7,9 @@ edition = "2024"
 native-windows-gui = "1"
 native-windows-derive = "1"
 anyhow = "1"
+
+[profile.release]
+opt-level = "z"
+strip = true
+lto = true
+codegen-units = 1
