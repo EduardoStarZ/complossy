@@ -8,6 +8,10 @@ use std::os::windows::process::CommandExt;
 
 const CREATE_NO_WINDOW: u32 = 0x08000000;
 
+const IMAGE_COMPRESSION_FLAGS : [&str;4] = ["-c:v", "mjpeg", "-q:v", "1"];
+
+const VIDEO_COMPRESSION_FLAGS : [&str;8] = ["-c:v", "libx264", "-crf", "23", "-c:a", "aac", "-b:a", "128k"];
+
 #[derive(Default, NwgUi)]
 pub struct App {
     #[nwg_control(title: "Complossy", flags: "WINDOW|VISIBLE", size: (500, 150), center: true)]
@@ -60,12 +64,18 @@ impl App {
 
         let binding : &mut Command = &mut Command::new("ffmpeg");
 
+        let extension = path.extension().unwrap();
+
+        let used_args : Vec<&str>;
+
+        match extension.to_str().unwrap() {
+            "mp4" | "mkv" | "mov" | "avi" => used_args = VIDEO_COMPRESSION_FLAGS.to_vec(),
+            "jpg" | "jpeg" | "png" | "webp" | "tiff" | _ => used_args = IMAGE_COMPRESSION_FLAGS.to_vec(),
+        }
+
         let runner = binding.arg("-i")
             .arg(file)
-            .arg("-c:v")
-            .arg("mjpeg")
-            .arg("-q:v")
-            .arg("1")
+            .args(used_args)
             .arg(output)
             .creation_flags(CREATE_NO_WINDOW);
 
